@@ -2,7 +2,8 @@
   "name": "@huangjs888/transition",
   "version": "1.0.1",
   "description": "style transition and animation",
-  "main": "lib/index.js",
+  "main": "src/index",
+  "source": "src/index",
   "unpkg": "dist/transition.min.js",
   "files": [
     "dist",
