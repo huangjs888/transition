@@ -1,6 +1,6 @@
 {
   "name": "@huangjs888/transition",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "style transition and animation",
   "main": "src/index",
   "source": "src/index",
