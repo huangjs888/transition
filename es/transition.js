@@ -1,3 +1,6 @@
+const _excluded = ["precision", "before", "after", "cancel"];
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 /*
  * @Author: Huangjs
  * @Date: 2023-02-13 15:22:58
@@ -6,55 +9,41 @@
  * @Description: ******
  */
 
-import Animation, { type AIOptions } from './animation';
-
-type TIValue = {
-  [key: string]: number;
-};
-export type TAIOptions = AIOptions & {
-  cancel?: boolean; // 该过渡过程是否可以取消
-  precision?: TIValue; // 传入精度，如果变化值小于这个精度，就不再动画，直接赋值
-  // 过渡时每一帧执行之前（只针对过渡动画，对于精度值小于precision的变化，由于不会开启Animation，所以不会调用该函数）
-  // 返回false，则该帧不执行即丢帧，返回其它则按照原来的继续向下执行（若返回是数字，则会达到篡改progress目的）
-  before?: (p: number, v: TIValue) => void | boolean | number;
-  // 过渡时每一帧执行之后（只针对过渡动画，对于精度值小于precision的变化，由于不会开启Animation，所以不会调用该函数）
-  after?: (p: number, v: TIValue) => void;
-};
-
-export abstract class TAProperty {
-  value: TIValue; // 过渡需要变化的值
-  constructor(value: TIValue) {
+import Animation from './animation';
+export class TAProperty {
+  // 过渡需要变化的值
+  constructor(value) {
     this.value = value;
   }
-  abstract toString(): string; // 要实现该值转变为style的字符串方法
+  // 要实现该值转变为style的字符串方法
 }
-export type TIOptions = {
-  element: HTMLElement; // 过渡应用的元素
-  propertyName: string; // 当前将要过渡的动画应用在元素的哪个属性上
-  propertyValue: TAProperty; // 当前将要过渡的动画属性的实时值
-};
 
 export default class Transition {
-  element: HTMLElement; // 过渡的元素
-  propertyName: string; // 当前将要过渡的动画应用在元素的哪个属性上
-  propertyValue: TAProperty; // 当前将要过渡的动画属性的实时值
-  _animation: {
-    animation: Animation; // 当前正在执行的过渡动画
-    remainValue: TIValue; // 该过渡动画被取消后剩余未执行的值
-    cancel: boolean; // 该过渡动画是否可以停止
-  }[] = []; // 该属性执行所有过渡的动画集合
-  constructor({ element, propertyName, propertyValue }: TIOptions) {
+  // 该属性执行所有过渡的动画集合
+  constructor({
+    element,
+    propertyName,
+    propertyValue
+  }) {
+    // 过渡的元素
+    // 当前将要过渡的动画应用在元素的哪个属性上
+    // 当前将要过渡的动画属性的实时值
+    this._animation = [];
     this.element = element;
     // 将驼峰转换为 - 连字符，style.setProperty只支持 - 连字符，不支持驼峰（不生效）
     this.propertyName = propertyName.replace(/([A-Z])/g, '-$1').toLowerCase();
     this.element.style.setProperty(this.propertyName, propertyValue.toString());
     this.propertyValue = propertyValue;
   }
-  bind(value: TIValue) {
+  bind(value) {
     // 这里直接做一次校准
-    const { element, propertyName, propertyValue } = this;
-    const newValue: TIValue = {};
-    Object.keys(value).forEach((key) => {
+    const {
+      element,
+      propertyName,
+      propertyValue
+    } = this;
+    const newValue = {};
+    Object.keys(value).forEach(key => {
       const val = value[key];
       if (typeof val === 'number') {
         newValue[key] = val;
@@ -63,19 +52,23 @@ export default class Transition {
     propertyValue.value = newValue;
     element.style.setProperty(propertyName, propertyValue.toString());
   }
-  apply(deltaValue: TIValue, options: TAIOptions) {
-    return new Promise<TIValue>((resolve) => {
+  apply(deltaValue, options) {
+    return new Promise(resolve => {
       const {
-        precision = {},
-        before = () => {},
-        after = () => {},
-        cancel = true,
-        ...restOptions
-      } = options;
-      const { element, propertyName, propertyValue } = this;
-      const produced: TIValue = {};
+          precision = {},
+          before = () => {},
+          after = () => {},
+          cancel = true
+        } = options,
+        restOptions = _objectWithoutPropertiesLoose(options, _excluded);
+      const {
+        element,
+        propertyName,
+        propertyValue
+      } = this;
+      const produced = {};
       // 做一次精度筛选
-      Object.keys(deltaValue).forEach((key) => {
+      Object.keys(deltaValue).forEach(key => {
         const val = deltaValue[key];
         if (typeof val === 'number') {
           // 大于精度的先存起来，后面启用动画
@@ -93,12 +86,16 @@ export default class Transition {
       // 存在需要执行动画的增量(大于精度的)，进行动画处理
       if (producedKeys.length > 0) {
         // 存储每一帧动画后还有多少剩余没有执行
-        const remainValue = { ...produced };
+        const remainValue = _extends({}, produced);
         // 创建动画，并存储到this
         const animation = new Animation(restOptions);
-        this._animation.push({ animation, remainValue, cancel });
+        this._animation.push({
+          animation,
+          remainValue,
+          cancel
+        });
         // 开启动画
-        animation.start((progress) => {
+        animation.start(progress => {
           const next = before(progress, propertyValue.value);
           if (next !== false) {
             let _progress = progress;
@@ -106,7 +103,7 @@ export default class Transition {
               _progress = next;
             }
             // 根据动画进度对value进行累加
-            producedKeys.forEach((key) => {
+            producedKeys.forEach(key => {
               // 总的需要消费数减去已经消费的部分，即为这一帧之后未消费的部分，_progress为已消费的进度
               const unconsumed = produced[key] * (1 - _progress);
               if (typeof propertyValue.value[key] === 'number') {
@@ -122,7 +119,7 @@ export default class Transition {
           after(progress, propertyValue.value);
           if (progress === 1) {
             // 动画结束后删除集合中的这个动画对象
-            const index = this._animation.findIndex((a) => animation === a.animation);
+            const index = this._animation.findIndex(a => animation === a.animation);
             // 一般情况不出出现-1，这里强判断（防止动画出现了两次progress为1的情况）
             if (index !== -1) {
               this._animation.splice(index, 1);
@@ -137,10 +134,14 @@ export default class Transition {
       }
     });
   }
-  cancel(end: boolean = false) {
+  cancel(end = false) {
     // end是告诉动画取消时是停留在当前还是执行到终点
-    const remainValues: TIValue[] = [];
-    this._animation = this._animation.filter(({ animation, remainValue, cancel }) => {
+    const remainValues = [];
+    this._animation = this._animation.filter(({
+      animation,
+      remainValue,
+      cancel
+    }) => {
       if (cancel) {
         animation[end ? 'end' : 'stop']();
         // 存储剩余没有执行的部分返回给调用者
