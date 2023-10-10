@@ -1021,7 +1021,7 @@
 
 "@huangjs888/transition@file:..":
   "resolved" "file:.."
-  "version" "1.1.1"
+  "version" "2.0.0"
   dependencies:
     "@babel/runtime-corejs3" "^7.22.10"
     "@huangjs888/lightdom" "^2.1.3"
