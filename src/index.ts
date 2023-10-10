@@ -1,21 +1,13 @@
 /*
  * @Author: Huangjs
- * @Date: 2023-07-26 16:28:46
+ * @Date: 2023-08-08 16:46:18
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-07-27 10:49:30
+ * @LastEditTime: 2023-10-10 14:17:06
  * @Description: ******
  */
 
-import Animation from './animation';
+import Transition from './rawjs';
 
-import Transition from './transition';
-
-export * from './transition';
-
-export * from './animation';
-
-export * from './easing';
-
-export { Animation };
+export * from './rawjs';
 
 export default Transition;

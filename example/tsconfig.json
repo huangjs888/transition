@@ -11,16 +11,12 @@
     "jsx": "react",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "./types",
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "rootDirs": [
       "./src"
     ],
     "rootDir": "./src",
-    "types": [
-      "node"
-    ],
     "typeRoots": [
       "./node_modules/@types"
     ]
@@ -30,11 +26,6 @@
     "global.d.ts"
   ],
   "exclude": [
-    "node_modules",
-    "example",
-    "types",
-    "lib",
-    "es",
-    "dist"
+    "node_modules"
   ]
 }

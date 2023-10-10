@@ -1,0 +1,111 @@
+<!--
+ * @Author: Huangjs
+ * @Date: 2021-10-15 15:24:21
+ * @LastEditors: Huangjs
+ * @LastEditTime: 2023-10-10 14:28:42
+ * @Description: ******
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scaleable=no"
+      name="viewport" />
+    <title>过渡测试</title>
+    <script src="../../dist/transition.min.js"></script>
+    <script src="../../dist/easing.min.js"></script>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #eee;
+      }
+      .app {
+        text-align: center;
+        margin: 20px;
+      }
+      .app .btn {
+        display: flex;
+        margin: 20px;
+      }
+      .app .rect {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 300px;
+        height: 300px;
+        color: #fff;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="btn">
+        <input type="button" data="0" value="重置" />
+        <input type="button" data="1" value="平移" />
+        <input type="button" data="2" value="旋转" />
+        <input type="button" data="3" value="垂直（不）" />
+        <input type="button" data="4" value="放大（不）" />
+      </div>
+      <div class="rect">测试方块</div>
+    </div>
+    <script>
+      (function () {
+        const btn = document.querySelector('.btn');
+        const rect = document.querySelector('.rect');
+        const transition = new window.Transition.default(rect);
+        transition.apply({
+          transform: new window.Transition.Value(
+            { a: 0, k: 1, x: 0, y: 0 }, // 初始位置
+            { a: 0.001, k: 0.001, x: 1, y: 1 }, // 初始化动画精度
+            (v) => `translate(${v.x}px, ${v.y}px) scale(${v.k}) rotate(${v.a}deg)`, // 应用CSS转换
+          ),
+        });
+        btn.onclick = function (e) {
+          const v = +e.target.getAttribute('data');
+          transition
+            .apply(
+              new window.Transition.Value(
+                v === 1
+                  ? { x: 200 }
+                  : v === 2
+                  ? { a: 90 }
+                  : v === 3
+                  ? { y: 200 }
+                  : v === 4
+                  ? { k: 2 }
+                  : { a: 0, k: 1, x: 0, y: 0 },
+              ),
+              {
+                duration: v === 1 ? 3000 : v === 2 ? 2000 : v === 3 ? 2500 : v === 4 ? 3500 : 500,
+                easing: window.Easing.easeOutQuart,
+                cancel: v === 1 || v === 2, // 动画可以取消
+                before: (p) => {
+                  // console.log('before:', p);
+                },
+                after: (p) => {
+                  // console.log('after:', p);
+                },
+              },
+            )
+            .then((vv) => {
+              console.log('transitionEnd:', vv);
+            });
+        };
+        rect.onmousedown = function () {
+          console.log('结束了', transition.cancel(), '个动画');
+        };
+        rect.ontouchstart = function () {
+          console.log('结束了', transition.cancel(), '个动画');
+        };
+      })();
+    </script>
+  </body>
+</html>

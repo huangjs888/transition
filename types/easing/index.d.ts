@@ -1,0 +1,14 @@
+export type EaseFn = (t: number) => number;
+export declare const easeLinear: EaseFn;
+export declare const easeInQuad: EaseFn;
+export declare const easeOutQuad: EaseFn;
+export declare const easeInCubic: EaseFn;
+export declare const easeOutCubic: EaseFn;
+export declare const easeInQuart: EaseFn;
+export declare const easeOutQuart: EaseFn;
+export declare const easeInQuint: EaseFn;
+export declare const easeOutQuint: EaseFn;
+export declare function createEase(a?: number, b?: number, easeFn?: EaseFn): EaseFn;
+export declare function createEaseInOut(k?: number, easeIn?: EaseFn, easeOut?: EaseFn): EaseFn;
+export declare const easeInOutQuad: EaseFn;
+export declare const easeOutInQuad: EaseFn;
