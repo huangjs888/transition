@@ -1,6 +1,6 @@
 {
   "name": "@huangjs888/transition",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "Style transition and animation",
   "types": "./types/index.d.ts",
   "module": "./es/transition.min.js",
