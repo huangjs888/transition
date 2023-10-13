@@ -1087,10 +1087,10 @@
   "resolved" "https://registry.npmjs.org/@eslint/js/-/js-8.47.0.tgz"
   "version" "8.47.0"
 
-"@huangjs888/lightdom@^2.1.4":
-  "integrity" "sha512-yuF+wxZ5QWJx16L0KYErfiu1k/QhhIw/yOmjd6+8sSEDomqmmqsUG+3Z3BL5HovnmSCLkAw/xJQZw/skAeTVTQ=="
-  "resolved" "https://registry.npmjs.org/@huangjs888/lightdom/-/lightdom-2.1.4.tgz"
-  "version" "2.1.4"
+"@huangjs888/lightdom@^2.1.5":
+  "integrity" "sha512-JX4IqzZiBzR58NfdK68V14Ry/9yiU1Nr6mQvaWOiGejkRGZc+94K6Ko0Q7+DwQyycgv8Uz6Jl41FFtVZK5Hasw=="
+  "resolved" "https://registry.npmjs.org/@huangjs888/lightdom/-/lightdom-2.1.5.tgz"
+  "version" "2.1.5"
   dependencies:
     "@babel/runtime-corejs3" "^7.22.10"
 

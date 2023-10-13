@@ -141,6 +141,6 @@
   },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.22.10",
-    "@huangjs888/lightdom": "^2.1.4"
+    "@huangjs888/lightdom": "^2.1.5"
   }
 }
