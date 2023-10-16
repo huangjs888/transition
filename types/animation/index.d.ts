@@ -24,5 +24,4 @@ export type IAnimationOptions = {
     easing?: IAnimationEasing;
     delay?: number;
 };
-export { requestAnimationFrame, cancelAnimationFrame };
-export default Animation;
+export { Animation, requestAnimationFrame, cancelAnimationFrame };

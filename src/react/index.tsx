@@ -2,7 +2,7 @@
  * @Author: Huangjs
  * @Date: 2023-08-22 16:15:47
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-10 14:15:47
+ * @LastEditTime: 2023-10-16 15:27:15
  * @Description: ******
  */
 
@@ -10,13 +10,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { setStyle } from '@huangjs888/lightdom';
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
-import Core, {
+import {
+  Transition as Core,
   type ICSSLikeStyle,
   type ICSSOptionProperties,
   type IAnimationExtendOptions,
 } from '../core';
-
-export * from '../core';
 
 export type ILaunch = {
   cssProperties?: ICSSOptionProperties;
@@ -36,7 +35,7 @@ export type ITransitionProps = {
   children?: React.ReactNode;
 };
 
-export default React.forwardRef<ITransitionRef, ITransitionProps>(
+const Transition = React.forwardRef<ITransitionRef, ITransitionProps>(
   ({ children, launch, cancel }, ref) => {
     const elementRef = React.useRef<Element | null>(null);
     const coreRef = React.useRef<Core | null>(null);
@@ -111,3 +110,7 @@ export default React.forwardRef<ITransitionRef, ITransitionProps>(
     );
   },
 );
+
+export * from '../core';
+
+export { Transition };

@@ -1,4 +1,4 @@
-import Animation, { type IAnimationOptions } from '../animation';
+import { Animation, type IAnimationOptions } from '../animation';
 import ICSSOptionValue from './value';
 declare class Transition {
     cssProperties: ICSSProperties;
@@ -46,4 +46,4 @@ export type ITransitionOptions = {
     apply?: (style: ICSSStyle) => void;
 };
 export declare const Value: typeof ICSSOptionValue;
-export default Transition;
+export { Transition };

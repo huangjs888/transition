@@ -2,12 +2,12 @@
  * @Author: Huangjs
  * @Date: 2023-08-30 11:09:21
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-10 14:27:39
+ * @LastEditTime: 2023-10-16 15:28:11
  * @Description: ******
  */
 
 import React from 'react';
-import Transition, { Value, type ILaunch, type ICancel } from '@huangjs888/transition/react';
+import { Transition, Value, type ILaunch, type ICancel } from '@huangjs888/transition/react';
 import { easeOutQuart } from '@huangjs888/transition/easing';
 import './app.css';
 

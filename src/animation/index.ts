@@ -2,7 +2,7 @@
  * @Author: Huangjs
  * @Date: 2023-02-13 15:22:58
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-10 14:24:45
+ * @LastEditTime: 2023-10-16 15:25:15
  * @Description: ******
  */
 
@@ -158,6 +158,4 @@ export type IAnimationOptions = {
   delay?: number; // 动画延迟多久执行，负数的话，会在第一次把这个时间内的变化一次性用掉，具体看css3-transition-delay
 };
 
-export { requestAnimationFrame, cancelAnimationFrame };
-
-export default Animation;
+export { Animation, requestAnimationFrame, cancelAnimationFrame };

@@ -2,7 +2,7 @@
  * @Author: Huangjs
  * @Date: 2023-08-09 11:24:45
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-10 17:08:35
+ * @LastEditTime: 2023-10-16 15:29:38
  * @Description: ******
  */
 
@@ -21,6 +21,7 @@ const config = {
     {
       format: MOD_ENV,
       sourcemap: true,
+      exports: 'named',
     },
   ],
   // nodeResolve是将node_modules里的依赖打包进来，这里可以选择一些依赖包，不打包进来，源码中只会保留导入语句
@@ -72,7 +73,7 @@ export default [
         ...config.output[0],
         file: `${pathname}/transition${NODE_ENV === 'production' ? '.min' : ''}.js`,
         // umd时挂在全局变量下的模块名称
-        name: MOD_ENV === 'umd' ? 'Transition' : undefined,
+        name: MOD_ENV === 'umd' ? 'RawTransition' : undefined,
       },
     ],
     plugins: [...config.plugins],
@@ -85,7 +86,7 @@ export default [
         ...config.output[0],
         file: `${pathname}/animation${NODE_ENV === 'production' ? '.min' : ''}.js`,
         // umd时挂在全局变量下的模块名称
-        name: MOD_ENV === 'umd' ? 'Animation' : undefined,
+        name: MOD_ENV === 'umd' ? 'RawAnimation' : undefined,
       },
     ],
     plugins: [...config.plugins],
@@ -98,7 +99,7 @@ export default [
         ...config.output[0],
         file: `${pathname}/easing${NODE_ENV === 'production' ? '.min' : ''}.js`,
         // umd时挂在全局变量下的模块名称
-        name: MOD_ENV === 'umd' ? 'Easing' : undefined,
+        name: MOD_ENV === 'umd' ? 'RawEasing' : undefined,
       },
     ],
     plugins: [...config.plugins],

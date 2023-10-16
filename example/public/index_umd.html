@@ -2,7 +2,7 @@
  * @Author: Huangjs
  * @Date: 2021-10-15 15:24:21
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-10 14:28:42
+ * @LastEditTime: 2023-10-16 15:46:45
  * @Description: ******
 -->
 <!doctype html>
@@ -60,9 +60,9 @@
       (function () {
         const btn = document.querySelector('.btn');
         const rect = document.querySelector('.rect');
-        const transition = new window.Transition.default(rect);
+        const transition = new window.RawTransition.Transition(rect);
         transition.apply({
-          transform: new window.Transition.Value(
+          transform: new window.RawTransition.Value(
             { a: 0, k: 1, x: 0, y: 0 }, // 初始位置
             { a: 0.001, k: 0.001, x: 1, y: 1 }, // 初始化动画精度
             (v) => `translate(${v.x}px, ${v.y}px) scale(${v.k}) rotate(${v.a}deg)`, // 应用CSS转换
@@ -72,7 +72,7 @@
           const v = +e.target.getAttribute('data');
           transition
             .apply(
-              new window.Transition.Value(
+              new window.RawTransition.Value(
                 v === 1
                   ? { x: 200 }
                   : v === 2
@@ -85,7 +85,7 @@
               ),
               {
                 duration: v === 1 ? 3000 : v === 2 ? 2000 : v === 3 ? 2500 : v === 4 ? 3500 : 500,
-                easing: window.Easing.easeOutQuart,
+                easing: window.RawEasing.easeOutQuart,
                 cancel: v === 1 || v === 2, // 动画可以取消
                 before: (p) => {
                   // console.log('before:', p);

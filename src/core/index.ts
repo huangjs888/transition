@@ -2,11 +2,11 @@
  * @Author: Huangjs
  * @Date: 2023-02-13 15:22:58
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-10 14:14:42
+ * @LastEditTime: 2023-10-16 15:25:57
  * @Description: ******
  */
 
-import Animation, { type IAnimationOptions } from '../animation';
+import { Animation, type IAnimationOptions } from '../animation';
 import ICSSOptionValue from './value';
 import { union, delta } from './method';
 
@@ -197,4 +197,4 @@ export type ITransitionOptions = {
 
 export const Value = ICSSOptionValue;
 
-export default Transition;
+export { Transition };

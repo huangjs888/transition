@@ -1,6 +1,5 @@
 import React from 'react';
-import Core, { type ICSSLikeStyle, type ICSSOptionProperties, type IAnimationExtendOptions } from '../core';
-export * from '../core';
+import { Transition as Core, type ICSSLikeStyle, type ICSSOptionProperties, type IAnimationExtendOptions } from '../core';
 export type ILaunch = {
     cssProperties?: ICSSOptionProperties;
     extendOptions?: IAnimationExtendOptions;
@@ -19,5 +18,6 @@ export type ITransitionProps = {
     cancel?: ICancel;
     children?: React.ReactNode;
 };
-declare const _default: React.ForwardRefExoticComponent<ITransitionProps & React.RefAttributes<ITransitionRef>>;
-export default _default;
+declare const Transition: React.ForwardRefExoticComponent<ITransitionProps & React.RefAttributes<ITransitionRef>>;
+export * from '../core';
+export { Transition };
