@@ -2,7 +2,7 @@
  * @Author: Huangjs
  * @Date: 2021-05-10 15:55:29
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-10 15:20:55
+ * @LastEditTime: 2023-10-20 15:10:51
  * @Description: ******
 -->
 
@@ -22,7 +22,7 @@ npm install @huangjs888/transition --save
 
 ```js
 
-import Transition, { Value, easeOutQuart } from '@huangjs888/transition';
+import  { Transition, Value, easeOutQuart } from '@huangjs888/transition';
 
 const transition = new Transition(document.querySelector('.rect'), {
   cssProperties: {
@@ -58,7 +58,7 @@ console.log('结束了', count, '个动画');
 ```js
 
 import React from 'react';
-import Transition, { Value, type ILaunch, type ICancel } from '@huangjs888/transition/react';
+import { Transition, Value, type ILaunch, type ICancel } from '@huangjs888/transition/react';
 
 function App() {
   const [cancel, setCancel] = React.useState<ICancel>(false);
@@ -120,7 +120,7 @@ function App() {
 
 ```js
 
-import Animation from '@huangjs888/transition/animation';
+import { Animation } from '@huangjs888/transition/animation';
 import { easeOutQuart } from '@huangjs888/transition/easing';
 
 const animation = new Animation({
