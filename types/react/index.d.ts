@@ -10,8 +10,8 @@ export type ICancel = boolean | {
     count?: (v: number) => void;
 };
 export type ITransitionRef = {
-    findDOMElement: () => Element | null | undefined;
-    getInstance: () => Core | null | undefined;
+    findDOMElement: () => Element | undefined;
+    getInstance: () => Core;
 };
 export type ITransitionProps = {
     launch?: ILaunch;

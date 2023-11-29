@@ -2,7 +2,7 @@
  * @Author: Huangjs
  * @Date: 2023-08-22 16:15:47
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-16 15:27:15
+ * @LastEditTime: 2023-10-27 10:36:13
  * @Description: ******
  */
 
@@ -25,8 +25,8 @@ export type ILaunch = {
 export type ICancel = boolean | { end?: boolean; count?: (v: number) => void };
 
 export type ITransitionRef = {
-  findDOMElement: () => Element | null | undefined;
-  getInstance: () => Core | null | undefined;
+  findDOMElement: () => Element | undefined;
+  getInstance: () => Core;
 };
 
 export type ITransitionProps = {
@@ -37,10 +37,9 @@ export type ITransitionProps = {
 
 const Transition = React.forwardRef<ITransitionRef, ITransitionProps>(
   ({ children, launch, cancel }, ref) => {
-    const elementRef = React.useRef<Element | null>(null);
-    const coreRef = React.useRef<Core | null>(null);
-
-    useIsomorphicLayoutEffect(() => {
+    const elementRef = React.useRef<Element>();
+    const coreRef = React.useRef<Core>();
+    if (!coreRef.current) {
       coreRef.current = new Core({
         apply: (style) => {
           const el = elementRef.current;
@@ -51,18 +50,18 @@ const Transition = React.forwardRef<ITransitionRef, ITransitionProps>(
           // 也可以使用setState
         },
       });
-    }, []);
-
+    }
+    const core = coreRef.current;
     useIsomorphicLayoutEffect(() => {
-      if (launch && coreRef.current) {
+      if (launch) {
         const { cssProperties, extendOptions, transitionEnd = () => {} } = launch;
-        cssProperties && coreRef.current.apply(cssProperties, extendOptions).then(transitionEnd);
+        cssProperties && core.apply(cssProperties, extendOptions).then(transitionEnd);
       }
     }, [launch]);
 
     useIsomorphicLayoutEffect(() => {
-      if (cancel && coreRef.current) {
-        const count = coreRef.current.cancel(cancel === true ? false : cancel.end);
+      if (cancel) {
+        const count = core.cancel(cancel === true ? false : cancel.end);
         if (cancel !== true) {
           typeof cancel.count === 'function' && cancel.count(count);
         }
@@ -73,9 +72,9 @@ const Transition = React.forwardRef<ITransitionRef, ITransitionProps>(
       ref,
       (): ITransitionRef => ({
         findDOMElement: () => elementRef.current,
-        getInstance: () => coreRef.current,
+        getInstance: () => core,
       }),
-      [],
+      [core],
     );
 
     // 这里ref函数使用useCallback，为了使每次渲染ref函数为同一个函数
@@ -93,7 +92,7 @@ const Transition = React.forwardRef<ITransitionRef, ITransitionProps>(
         element = ReactDOM.findDOMNode(_ref);
       }
       if (!(element instanceof Element)) {
-        element = null;
+        element = undefined;
       }
       elementRef.current = element;
     }, []);
